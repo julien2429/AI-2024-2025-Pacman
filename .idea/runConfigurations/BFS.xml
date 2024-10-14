@@ -9,12 +9,12 @@
     </envs>
     <option name="SDK_HOME" value="" />
     <option name="SDK_NAME" value="/usr/bin/python3.10" />
-    <option name="WORKING_DIRECTORY" value="$FileDir$/search" />
+    <option name="WORKING_DIRECTORY" value="\\wsl.localhost\Ubuntu-22.04\home\julien2429\AI-2024-2025-Pacman\search" />
     <option name="IS_MODULE_SDK" value="false" />
     <option name="ADD_CONTENT_ROOTS" value="true" />
     <option name="ADD_SOURCE_ROOTS" value="true" />
     <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-    <option name="SCRIPT_NAME" value="$FileDir$/search/pacman.py" />
+    <option name="SCRIPT_NAME" value="$PROJECT_DIR$/search/pacman.py" />
     <option name="PARAMETERS" value="-l tinyMaze -p SearchAgent -a fn=bfs" />
     <option name="SHOW_COMMAND_LINE" value="false" />
     <option name="EMULATE_TERMINAL" value="false" />

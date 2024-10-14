@@ -89,17 +89,70 @@ def depthFirstSearch(problem):
     "*** YOUR CODE HERE ***"
     util.raiseNotDefined()
 
+
+def getDirectionFromPoints( p1,  p2):
+    from game import Directions
+    dY= p1[1]-p2[1]
+    dX= p1[0]-p2[0]
+    if dX==0 and dY==-1:
+        return Directions.SOUTH
+    elif dX==0 and dY==1:
+        return Directions.NORTH
+    elif dX==1 and dY==0:
+        return Directions.EAST
+    elif dX==-1 and dY==0:
+        return Directions.WEST
+    else:
+        return Directions.STOP
+
+def findPrevious( visited , node ):
+    for pos in visited:
+        if pos[0] == node:
+            return pos[1]
+    return None
+
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
+    from game import Directions
     "*** YOUR CODE HERE ***"
     print("Start:", problem.getStartState())
     print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
-    print("Start's successors:", problem.getSuccessors(problem.getStartState()))
 
-    from game import Directions
-    s = Directions.SOUTH
-    w = Directions.WEST
-    return  [s, s, w, s, w, w, s, w]
+    queue = []
+    visited = []
+    answer = []
+
+    start = problem.getStartState()
+    queue.append( start )
+    visited.append( (start,start) )
+    while queue:
+        front = queue.pop(0)
+        curr = front
+
+        if problem.isGoalState(curr):
+            prev = findPrevious(visited, curr)
+            while curr!=prev:
+                answer.append(getDirectionFromPoints(curr, prev))
+                curr = prev
+                prev = findPrevious(visited, curr)
+            reversedAnswer = answer[::-1] # nu merge cu reverse, doar cu schema asta
+            return reversedAnswer
+        print("Current node: ", curr)
+
+        for neighbour in problem.getSuccessors(curr):
+            coord= neighbour[0]
+            visitedNodes = ( el[0] for el in visited)
+            if coord not in visitedNodes :
+                queue.append( coord )
+                visited.append( (coord, curr ))
+    print("No answer")
+    return [Directions.STOP]
+
+
+
+
+
+
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
