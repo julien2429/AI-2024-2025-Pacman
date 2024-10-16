@@ -87,7 +87,54 @@ def depthFirstSearch(problem):
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     """
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    # print("Start:", problem.getStartState())
+    # print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
+    # print("Start's successors:", problem.getSuccessors(problem.getStartState()))
+    from game import Directions
+    stack = []
+    stackDirections = []
+    visited = []
+
+    start = problem.getStartState()
+    current = start
+    stack.append(start)
+    visited.append(start)
+    # visited.append(start)
+    print(stack)
+    print(visited)
+    while stack:
+        print('here')
+        print(current)
+        if problem.isGoalState(current):
+            print(stackDirections)
+            # stack.pop()
+            # previous = stack.pop()
+            # while stack:
+            #     print(getDirectionFromPoints(previous, current))
+            #     stackDirections.append(getDirectionFromPoints(current, previous))
+            #     current = previous
+            #     previous = stack.pop()
+            #     print(stackDirections)
+            return stackDirections
+        found = False
+        for neighbour in problem.getSuccessors(current):
+            # print('neighbour')
+            # print(neighbour[0])
+            next_elem = neighbour[0]
+            if next_elem not in visited :
+                stack.append(next_elem)
+                stackDirections.append(neighbour[1])
+                visited.append(next_elem)
+                current = next_elem
+                found = True
+                break
+        if not found:
+            stack.pop()
+            stackDirections.pop()
+            current = stack.pop()
+            stack.append(current)
+    return [Directions.STOP]
+    # util.raiseNotDefined()
 
 
 def getDirectionFromPoints( p1,  p2):
