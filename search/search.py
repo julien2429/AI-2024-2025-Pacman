@@ -137,20 +137,15 @@ def depthFirstSearch(problem):
     # util.raiseNotDefined()
 
 
-def getDirectionFromPoints( p1,  p2):
+def getDirectionFromPoints( visited,  curr, prev):
+
     from game import Directions
-    dY= p1[1]-p2[1]
-    dX= p1[0]-p2[0]
-    if dX==0 and dY==-1:
-        return Directions.SOUTH
-    elif dX==0 and dY==1:
-        return Directions.NORTH
-    elif dX==1 and dY==0:
-        return Directions.EAST
-    elif dX==-1 and dY==0:
-        return Directions.WEST
-    else:
-        return Directions.STOP
+
+    for x in visited:
+        if x[0] == curr and x[1] == prev:
+            return x[2]
+
+    return Directions.STOP
 
 def findPrevious( visited , node ):
     for pos in visited:
@@ -171,7 +166,7 @@ def breadthFirstSearch(problem):
 
     start = problem.getStartState()
     queue.append( start )
-    visited.append( (start,start) )
+    visited.append( (start,start, '') )
     while queue:
         front = queue.pop(0)
         curr = front
@@ -179,7 +174,8 @@ def breadthFirstSearch(problem):
         if problem.isGoalState(curr):
             prev = findPrevious(visited, curr)
             while curr!=prev:
-                answer.append(getDirectionFromPoints(curr, prev))
+                print("direction" + getDirectionFromPoints(visited,curr, prev))
+                answer.append(getDirectionFromPoints(visited,curr, prev))
                 curr = prev
                 prev = findPrevious(visited, curr)
             reversedAnswer = answer[::-1] # nu merge cu reverse, doar cu schema asta
@@ -191,7 +187,7 @@ def breadthFirstSearch(problem):
             visitedNodes = ( el[0] for el in visited)
             if coord not in visitedNodes :
                 queue.append( coord )
-                visited.append( (coord, curr ))
+                visited.append( (coord, curr , neighbour[1] ))
     print("No answer")
     return [Directions.STOP]
 
