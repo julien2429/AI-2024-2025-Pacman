@@ -72,6 +72,7 @@ def tinyMazeSearch(problem):
     w = Directions.WEST
     return  [s, s, w, s, w, w, s, w]
 
+
 def depthFirstSearch(problem):
     """
     Search the deepest nodes in the search tree first.
@@ -92,48 +93,23 @@ def depthFirstSearch(problem):
     # print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     from game import Directions
     stack = []
-    stackDirections = []
-    visited = []
-
+    visited = {}
     start = problem.getStartState()
-    current = start
-    stack.append(start)
-    visited.append(start)
-    # visited.append(start)
-    print(stack)
-    print(visited)
+    stack.append((start,[]))
     while stack:
-        print('here')
+        current,path = stack.pop()
         print(current)
         if problem.isGoalState(current):
-            print(stackDirections)
-            # stack.pop()
-            # previous = stack.pop()
-            # while stack:
-            #     print(getDirectionFromPoints(previous, current))
-            #     stackDirections.append(getDirectionFromPoints(current, previous))
-            #     current = previous
-            #     previous = stack.pop()
-            #     print(stackDirections)
-            return stackDirections
-        found = False
-        for neighbour in problem.getSuccessors(current):
-            # print('neighbour')
-            # print(neighbour[0])
-            next_elem = neighbour[0]
-            if next_elem not in visited :
-                stack.append(next_elem)
-                stackDirections.append(neighbour[1])
-                visited.append(next_elem)
-                current = next_elem
-                found = True
-                break
-        if not found:
-            stack.pop()
-            stackDirections.pop()
-            current = stack.pop()
-            stack.append(current)
+            print(path)
+            return path
+        if current not in visited:
+            visited[current] = True
+        for neighbor, action, _ in problem.getSuccessors(current):
+            if neighbor not in visited:
+                new_path = path + [action]
+                stack.append((neighbor,new_path))
     return [Directions.STOP]
+
     # util.raiseNotDefined()
 
 
@@ -157,8 +133,8 @@ def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     from game import Directions
     "*** YOUR CODE HERE ***"
-    print("Start:", problem.getStartState())
-    print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
+    # print("Start:", problem.getStartState())
+    # print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
 
     queue = []
     visited = []
@@ -174,13 +150,13 @@ def breadthFirstSearch(problem):
         if problem.isGoalState(curr):
             prev = findPrevious(visited, curr)
             while curr!=prev:
-                print("direction" + getDirectionFromPoints(visited,curr, prev))
+                # print("direction" + getDirectionFromPoints(visited,curr, prev))
                 answer.append(getDirectionFromPoints(visited,curr, prev))
                 curr = prev
                 prev = findPrevious(visited, curr)
             reversedAnswer = answer[::-1] # nu merge cu reverse, doar cu schema asta
             return reversedAnswer
-        print("Current node: ", curr)
+        # print("Current node: ", curr)
 
         for neighbour in problem.getSuccessors(curr):
             coord= neighbour[0]
@@ -188,7 +164,7 @@ def breadthFirstSearch(problem):
             if coord not in visitedNodes :
                 queue.append( coord )
                 visited.append( (coord, curr , neighbour[1] ))
-    print("No answer")
+    # print("No answer")
     return [Directions.STOP]
 
 
